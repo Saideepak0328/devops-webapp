@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI Pipeline with Slack Notification
 
 on:
   push:
@@ -18,3 +18,10 @@ jobs:
 
       - name: List Files
         run: ls -la
+
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          curl -X POST -H "Content-type: application/json" \
+          --data "{\"text\":\"✅ Build Completed! GitHub Actions CI Pipeline ran successfully for devops-webapp.\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
